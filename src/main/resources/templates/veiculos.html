@@ -1,0 +1,128 @@
+<!doctype html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Consulta de veículos cadastrados no Sistema de Estacionamento."/>
+
+    <!-- CSS processado pelo Spring Boot -->
+    <link rel="stylesheet" th:href="@{/veiculos.css}" />
+
+    <title>Veículos | Sistema de Estacionamento</title>
+  </head>
+
+  <body>
+    <!-- ========================================= -->
+    <!-- CABEÇALHO -->
+    <!-- ========================================= -->
+
+    <header>
+      <h1>Sistema de Estacionamento</h1>
+
+      <p>Gerenciamento de veículos</p>
+
+      <nav>
+        <a th:href="@{/}"> Início </a>
+        <a th:href="@{/veiculos/cadastro}"> Cadastrar veículo </a>
+        <a th:href="@{/veiculos}"> Veículos </a>
+      </nav>
+    </header>
+
+    <!-- ========================================= -->
+    <!-- CONTEÚDO PRINCIPAL -->
+    <!-- ========================================= -->
+
+    <main>
+      <section>
+        <h2>Veículos cadastrados</h2>
+
+        <p>Consulte abaixo os veículos cadastrados no estacionamento.</p>
+
+        <!-- ================================= -->
+        <!-- TABELA -->
+        <!-- ================================= -->
+
+        <table>
+          <!-- CABEÇALHO DA TABELA -->
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Placa</th>
+              <th>Modelo</th>
+              <th>Tipo</th>
+              <th>Valor/hora</th>
+              <th>Horas</th>
+              <th>Estacionado</th>
+              <th>Ações</th>
+            </tr>
+          </thead>
+
+          <!-- ================================= -->
+          <!-- CORPO DINÂMICO DA TABELA -->
+          <!-- ================================= -->
+          <tbody>
+            <!--Para cada veículo existente na lista "veiculos", o Thymeleaf cria uma nova linha.-->
+
+            <tr th:each="veiculo : ${veiculos}">
+
+              <!-- ID -->
+              <td th:text="${veiculo.id}">1</td>
+
+              <!-- PLACA -->
+              <td th:text="${veiculo.placa}">Placa</td>
+
+              <!-- MODELO -->
+              <td th:text="${veiculo.modelo}">Modelo</td>
+
+              <!-- TIPO -->
+              <td th:text="${veiculo.tipo}">Tipo</td>
+
+              <!-- VALOR POR HORA -->
+              <td th:text="${veiculo.valorHora}">Valor</td>
+
+              <!-- HORAS ESTACIONADO -->
+              <td th:text="${veiculo.horasEstacionado}">Horas</td>
+
+              <!-- SITUAÇÃO -->
+              <td th:text="${veiculo.estacionado ? 'Sim' : 'Não'}">Situação</td>
+
+              <!-- AÇÕES -->
+              <td>
+                  <!-- EDITAR -->
+                  <a th:href="@{/veiculos/editar/{id}(id=${veiculo.id})}" class="btn-editar">Editar</a>
+
+                  <!-- EXCLUIR -->
+                  <form th:action="@{/veiculos/excluir/{id}(id=${veiculo.id})}" method="post" onsubmit="return confirm('Deseja realmente excluir este veículo?');">
+                      <button type="submit" class="btn-excluir"> Excluir</button>
+                  </form>
+
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+
+      <!-- ========================================= -->
+      <!-- AÇÕES -->
+      <!-- ========================================= -->
+
+      <section>
+        <h2>Ações</h2>
+
+        <p>Deseja cadastrar outro veículo?</p>
+
+        <a th:href="@{/veiculos/cadastro}"> Cadastrar novo veículo </a>
+      </section>
+    </main>
+
+    <!-- ========================================= -->
+    <!-- RODAPÉ -->
+    <!-- ========================================= -->
+
+    <footer>
+      <p>Sistema de Estacionamento</p>
+
+      <p>Projeto desenvolvido para fins educacionais.</p>
+    </footer>
+  </body>
+</html>
